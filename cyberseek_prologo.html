@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CyberSeek — Prólogo</title>
+<style>
+:root{--ink:#0e1119;
+--panel:rgba(14,17,25,.9);
+--line:#33405c;
+--txt:#eef1f8;
+--mut:#98a3bd;
+--acc:#6fc3ff;
+--warn:#ffb454;
+--bad:#ff6b7f;
+--ok:#6fe3a8;
+color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+
+html,body{height:100%;background:var(--ink);
+color:var(--txt);
+font-family:"Trebuchet MS","Segoe UI",sans-serif;
+overflow:hidden;
+
+user-select:none}
+#game{position:relative;
+width:100%;
+height:100%;
+max-width:177.78vh;
+max-height:56.25vw;
+margin:auto;top:50%;
+transform:translateY(-50%);
+overflow:hidden;
+background:#000}
+
+.bg{position:absolute;
+inset:0;
+background-size:cover;
+background-position:center;
+transition:opacity .8s;
+opacity:0}
+
+.bg.on{opacity:1}
+#shade{position:absolute;
+inset:0;
+background:linear-gradient(transparent 45%,rgba(5,7,12,.85))}
+#chars{position:absolute;
+inset:0;
+pointer-events:none}
+
+.sp{position:absolute;
+  bottom:20%;
+  height:68%;
+  transition:opacity .4s,transform .4s;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+
+.sp.l{left:8%}.sp.c{left:50%;
+  transform:translateX(-50%)}.sp.r{right:8%}
+
+.sp img{height:100%;
+  width:auto;
+  display:block}
+
+.sp.dim{filter:brightness(.55) drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+
+#hud{position:absolute;
+  top:2%;
+  left:2%;right:2%;
+  display:flex;gap:8px;
+  flex-wrap:wrap;
+  font-size:clamp(10px,1.5vh,15px)}
+
+  .st{background:var(--panel);
+    border:1px solid var(--line);
+    padding:.4em .8em;
+    border-radius:6px;
+    color:var(--mut)}
+
+    .st b{color:var(--txt);
+      transition:color .3s}
+
+      .st.up b{color:var(--ok)}.st.dn b{color:var(--bad)}
+
+      .st.low{border-color:var(--bad)}
+#box{position:absolute;
+  left:4%;
+  right:4%;
+  bottom:4%;
+  min-height:25%;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:2.2% 3%;cursor:pointer}
+
+  #who{position:absolute;
+    top:-1.1em;left:2.5%;
+    background:var(--acc);
+    color:#07101a;
+    font-weight:700;padding:.2em .9em;border-radius:5px;
+    font-size:clamp(12px,2.2vh,20px)}
+
+    #who:empty{display:none}
+
+    #txt{font-size:clamp(14px,2.7vh,26px);
+      line-height:1.5;
+      max-width:120ch}
+
+      #txt.nar{color:#cfd6e8;
+        font-style:italic}
+
+        #more{position:absolute;
+          right:2%;bottom:6%;
+          color:var(--acc);
+          animation:bl 1s infinite}
+
+          @keyframes bl{50%{opacity:.2}}
+
+          #choices{position:absolute;
+            inset:0;display:none;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:1.4vh;background:rgba(5,7,12,.7);
+            padding:0 8%}
+
+            #choices h2{font-size:clamp(15px,3vh,28px);
+              margin-bottom:1vh;
+              text-align:center;
+              font-weight:600}
+
+              #choices button,.btn{width:min(780px,100%);
+                padding:1.3vh 1.6vw;background:#171c2a;
+                color:var(--txt);border:1px solid var(--line);
+                border-radius:8px;
+                font:inherit;
+                font-size:clamp(13px,2.4vh,22px);
+                text-align:left;
+                cursor:pointer;
+                transition:border-color .15s,background .15s}
+
+                #choices button:hover,#choices button:focus-visible,.btn:hover,.btn:focus-visible{border-color:var(--acc);
+                  background:#1d2540;outline:none}
+
+                #choices input{width:min(420px,100%);
+                  padding:1.3vh 1.2vw;
+                  font:inherit;
+                  font-size:clamp(14px,2.6vh,24px);
+                  background:#0b0e16;color:var(--txt);
+                  border:1px solid var(--acc);border-radius:8px;text-align:center;
+                  user-select:text}
+
+                .row{display:flex;gap:10px;width:min(780px,100%)}
+
+                .row button{text-align:center!important}
+
+                #scr{position:absolute;inset:0;
+                  display:flex;
+                  flex-direction:column;
+                  justify-content:center;
+                  align-items:center;
+                  gap:2vh;background:radial-gradient(circle at 50% 40%,#1b2540,#07090f 70%);
+                  text-align:center;
+                  padding:4%;z-index:5}
+
+                  #scr h1{font-size:clamp(34px,10vh,100px);
+                    letter-spacing:.12em;
+                    font-weight:800}
+
+                  #scr h1 span{color:var(--acc)}
+
+                  #scr p{color:var(--mut);
+                    font-size:clamp(13px,2.4vh,22px);
+                    max-width:60ch;
+                    line-height:1.5}
+
+                  #scr .btn{width:auto;
+                    text-align:center;
+                    padding:1.4vh 3vw}
+
+                  #sum{color:var(--txt);
+                    font-size:clamp(12px,2.1vh,19px);
+                    text-align:left;background:var(--panel);
+                    border:1px solid var(--line);border-radius:8px;
+                    padding:1.5vh 2vw;
+                    line-height:1.7}
+
+                  #card{position:absolute;
+                    inset:0;
+                    display:none;
+                    align-items:center;
+                    justify-content:center;
+                    flex-direction:column;
+                    background:#000;
+                    font-size:clamp(22px,5vh,48px);
+                    letter-spacing:.08em;z-index:3;
+                    text-align:center;
+                    gap:1vh}
+
+                  #card small{font-size:.38em;
+                    color:var(--mut);letter-spacing:.04em}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="game">
+ <div class="bg" id="b0"></div><div class="bg" id="b1"></div><div id="shade"></div>
+ <div id="chars"></div>
+ <div id="hud"></div>
+ <div id="box"><div id="who"></div><div id="txt"></div><span id="more">▼</span></div>
+ <div id="choices"></div>
+ <div id="card"></div>
+ <div id="scr"></div>
+</div>
+<script>
+const IMG={onibus:"onibus.png",
+  quarto:"quarto.png",
+  condo:"condo.png",
+  lab:"lab.png",
+  corredor:"corredor.png",
+  dentro:"dentro.png",
+  escada:"escadaria.png",
+  facul:"facul.png",
+  patio:"patio.png",
+  sala:"sala.png",
+}
+const $=id=>document.getElementById(id);
+let S,Q=[],cur=null,typing=null,full="",waiting=false,bgi=0;
+
+/* ---------- Sprites (personagens aleatórios em SVG) ---------- */
+const CHAR_IMG={
+  rodri:"prof.png",
+  mik:"mik.png",
+  iri:"iris.png",
+  zela:"zela.png"
+};
+function sprite(k){const p=P[k];
+ if(CHAR_IMG[k]) return `<img src="${CHAR_IMG[k]}" alt="${p.n}">`;
+ return `<svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
+ ${p.long?`<rect x="52" y="52" width="96" height="190" rx="46" fill="${p.hair}"/>`:""}
+ <path d="M30 420 C30 300 50 250 100 245 C150 250 170 300 170 420Z" fill="${p.cloth}"/>
+ ${p.hood?`<path d="M62 262 Q100 300 138 262 L150 300 Q100 340 50 300Z" fill="#232a37"/>`:""}
+ <rect x="86" y="205" width="28" height="48" fill="${p.skin}"/>
+ <ellipse cx="100" cy="140" rx="52" ry="62" fill="${p.skin}"/>
+ <path d="M48 135 Q50 70 100 72 Q152 70 152 135 Q130 100 100 102 Q70 100 48 135Z" fill="${p.hair}"/>
+ ${p.bun?`<circle cx="100" cy="62" r="20" fill="${p.hair}"/>`:""}
+ ${p.spiky?`<path d="M52 100 L62 55 L80 85 L100 48 L120 85 L140 55 L150 100Z" fill="${p.hair}"/>`:""}
+ <ellipse cx="78" cy="142" rx="6" ry="8" fill="#161616"/><ellipse cx="122" cy="142" rx="6" ry="8" fill="#161616"/>
+ ${p.glasses?`<g fill="none" stroke="#1a1a22" stroke-width="4"><rect x="62" y="128" width="32" height="28" rx="8"/><rect x="106" y="128" width="32" height="28" rx="8"/><path d="M94 140h12"/></g>`:""}
+ <path d="M84 178 Q100 190 116 178" stroke="#5a2a2a" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`}
+function show(list){ // list: [[chave,pos]]
+ $("chars").innerHTML=list.map(([k,pos])=>`<div class="sp ${pos}" data-k="${k}">${sprite(k)}</div>`).join("")}
+function focusSpeaker(w){document.querySelectorAll(".sp").forEach(e=>e.classList.toggle("dim",!!w&&P[e.dataset.k]?.n!==w&&e.dataset.k!==w))}
+
+/* ---------- Atributos ---------- */
+function hud(ch){
+ const it=[["Segurança","sec"],["Reputação","rep"],["Confiança Kael","mik"],["Confiança iris","iri"]];
+ $("hud").innerHTML=it.map(([l,k])=>`<div class="st ${k==="sec"&&S.sec<30?"low":""} ${ch&&ch[k]>0?"up":ch&&ch[k]<0?"dn":""}"><span>${l}</span> <b>${S[k]}</b></div>`).join("")}
+const E=(o)=>()=>{const ch={};for(const k of["sec","rep","mik","iri"])if(o[k]){S[k]+=o[k];ch[k]=o[k]}
+ if(o.f)o.f.split(" ").forEach(f=>S.flags[f]=1);hud(ch);setTimeout(()=>hud(),1600)};
+
+/* ---------- Roteiro (Prólogo) ---------- */
+const N=t=>({w:"",t}),D=(w,t)=>({w,t}),BG=b=>({bg:b}),SH=(...l)=>({sh:l}),CARD=(a,b)=>({card:[a,b]}),CH=(q,o)=>({ch:q,o});
+const g=(m,f)=>S.g==="f"?f:m;
+const SCRIPT=()=>[
+ CARD("Dia 1","Um novo começo."),
+ BG("dentro"),SH(),
+ N("Barulho de motor. Uma estrada que parece não acabar. Tudo parece feito pra assustar alguém não preparado."),
+ N("Cheguei com as minhas malas que, pareciam pesar toneladas, e meu notebook que meu pai havia me dado em 2016."),
+ N("Do bolso da minha calça, tiro um papel escrito com letras apressadas e rabiscadas 'Condominio boa vista, primeiro andar, apartamento 101'."),
+ BG("onibus"),
+ N("A cidade não era como eu imaginava. Bem maior e... Bem quente."),
+ N("Desci do onibus e respirei fundo, sentindo o ar frio da manhã preencher meus pulmões."),
+ N("Imediatamente, o pânico já começou a se instalar e um pensamento me veio a mente."),
+ N("e agora?"),
+ N("Natal, Rio Grande do Norte. Calouro de Ciências da Computação. Um recomeço longe de casa. Tudo novo de mais pra mim."),
+ {nm:1},
+ CH("Por que você escolheu Ciências da Computação?",[
+  ["“Sempre quis entender como as coisas funcionam por dentro.”",E({rep:2}),[N("Lembro de quando era criança e insistia pra ajudar meu pai em sua oficina, isso me trás memórais boas")]],
+  ["“Quero ganhar bem.”",E({rep:1,f:"motivacao_dinheiro"}),[N("Sei que não é a melhor das intensões... Mas é a verdade.")]],
+  ["“Um amigo me influenciou.”",E({f:"motivacao_amigo"}),[N("Nem lembro direito do rosto dele, faz meses, mas algo estalou na minha cabeça quando ele me ensinou a montar um computador de mesa.")]],
+  ["“Não sei ainda.”",E({f:"motivacao_indefinida"}),[N("Ainda consigo decidir, é o início da minha nova vida.")]]
+ ]),
+ /* CENA 2 */
+ CARD("Mais tarde","Apartamento"),
+ BG("condo"),
+ N("Aqui está, o lugar aonde vou ficar até o final da faculdade."),
+ BG("escada"),
+ N("O prédio é antigo, de escada larga e corrimão frio. Parece que saiu de um filme de terror, espero não precisar sair durante a noite."),
+ BG("quarto"),
+ N("O apartamento é um quarto, uma cozinha e um chuveiro que demora 10 segundos pra realmente descer água."),
+ N("O básico, vou conectar meu celular ao WI-FI daqui... Precisa configurar o roteador primeiro."),
+ CH("Qual será a senha do roteador?",[
+  ["Deixar a senha padrão da operadora (admin/admin)",E({sec:-10,f:"roteador_padrao"}),[N("A senha é admin. O usuário é admin. Depois eu mudo isso.")]],
+  ["Trocar por uma senha forte",E({sec:10}),[N("Doze caracteres, nada de informações pessoais... Perfeito")]],
+  ["Descer e perguntar para a zeladora",E({sec:5}),[BG("escada"),SH(["zela","c"]),
+    N("A zeladora do prédio, que estava nas escadas, parece ser uma mulher de seus 50 anos."),
+    N("Ao me aproximar, vi uma pequena etiqueta na camiseta dela que dizia 'Zeladora Marcia'."),
+    N("Quando eu me aproximo, ela me olha de cima a baixo."),
+    D("Zeladora Marcia",`“${g("Menino","Menina")}, tem um pessoal desse predio que fica fuxicando nas coisas dos outros, então é melhor tomar cuidado.”`),
+    N("Ela volta para a portaria sem esperar resposta. Eu fico com a sensação de que ela anotou o meu nome em algum lugar."),
+    N("Enfim, vou deixar isso de lado. Tenho que descansar para amanhã, que irei começar a faculdade."),SH()]]
+ ]),
+ /* CENA 3 */
+ CARD("Dia 2","Primeira aula"),
+ BG("facul"),SH(),
+ N("O campus é cheio de tijolos vermelhos, árvores e gente que parece saber exatamente para onde ir."),
+ N("Me sinto perdido como em cego em tiroteio."),
+ BG("corredor"),
+ N("No corredor dos armários, alguém faz algum comentario que faz seu grupo inteiro rir."),
+ N("Todo mundo aqui já parece ter seus grupinhos..."),
+ BG("sala"),SH([""]),
+ D("Professora Rodriga","Bom dia, meus alunos! Quem está aqui porque tem que pagar essa materia obrigatoriamente, levanta a mão."),
+ N("Metade da sala levanta, o que me tira uma risada genuina mas eu contenho."),
+ D("Professora Rodriga","Obrigada pela honestidade. Vocês vão sair daqui sabendo pelo menos alguma coisa."),
+ D("Professora Rodriga","Segurança da informação não é tão difícil quanto parece."),
+ D("Professora Rodriga","Está materia é sobre ter confiança e não correr riscos dentro da internet..."),
+ N("Enquanto a professora começava a falar, eu olho ao redor da sala."),
+ SH(),
+ CH("Onde você vai sentar?",[
+  ["Ao lado do menino barulhento",E({mik:2}),[SH(["mik","c"]),
+    D("???","E aí! Você é calouro também? Eu sou Mikael, mas pode me chamar de Kael."),
+    D("Kael","Cara, eu não entendo NADA que essa mulher fala, posso pegar do teu caderno???")]],
+  ["Perto da menina quieta",E({iri:2}),[SH(["iris","c"]),
+    N("A moça ao lado tem dois monitores na mochila e um adesivo de terminal no notebook."),
+    D("???","Oi, você é novo, né? eu sou Iris, sou monitora dessa materia."),
+    N("Pelo jeito que a garota falava, provavelmente não era o primeiro semestre dela, talvez nem segundo."),
+    D("Iris","Essa professora é meio mandona então é melhor falar baixinho, mas pode tirar duvida comigo se precisar."),
+    D("Iris","Só não fala muito alto, tá?")]],
+  ["Sozinho no fundo",E({sec:2,f:"solitario"}),[N("Decido sentar no fundo da sala, é quieto e tranquilo. É solitário. Mas consigo prestar atenção na aula.")]]
+ ]),
+ SH(),
+ /* CENA 4 */
+ CARD("Depois de algumas aulas","Laboratório"),
+ BG("lab"),
+ N("Nos encaminharam para o laboratorio de Informatica no final do dia."),
+ N("Instruiram que tinhamos que criar uma conta escolar, usando a matricula e email institucional."),
+ N("O sistema pede letra maiúscula, número e símbolo. Não preciso pensar muito."),
+ CH("Qual senha você vai criar?",[
+  ["12345678",E({sec:-15,f:"senha_fraca"}),[N("O sistema aceita. Foi muito idiota mas não é como se alguém fosse tentar entrar.")]],
+  ["Zico2010",E({sec:-5}),[N("Fácil de lembrar. Memoria afetiva também, meu cachorrinho quando era criança.")]],
+  ["Usar o gerador de senhas do navegador",E({sec:10,f:"senha_forte"}),[N("Uma sequência impossível de decorar mas pelo menos funciona, só preciso anotar...")]],
+  ["Uma frase longa: “CaféComPãoNaPraiaDoMeio!”",E({sec:15,f:"senha_forte"}),[N("Uma frase que pensei do nada, mas é engraçadinha e consigo lembrar sem dificuldades. E é segura!")]]
+ ]),
+ CARD("FIM DO PRÓLOGO",""),
+ BG("patio"),
+ N("Sai do láboratorio e noto que o patio estava meio vazio, parecia ser hora do almoço."),
+ D("Narrador","Você não sabe ainda, mas alguém já está olhando."),
+ D("Narrador","Não pelo campus. Pela rede."),
+ {end:1}
+];
+
+/* ---------- Motor ---------- */
+function setBG(k){const n=$("b"+(1-bgi)),o=$("b"+bgi);n.style.backgroundImage=`url("${IMG[k]}")`;n.classList.add("on");o.classList.remove("on");bgi=1-bgi}
+function next(){
+ if(waiting)return;
+ if(typing){clearInterval(typing);typing=null;$("txt").textContent=full;$("more").style.visibility="visible";return}
+ if(!Q.length)return;
+ const s=Q.shift();
+ if(s.bg){setBG(s.bg);return next()}
+ if(s.sh){show(s.sh);return next()}
+ if(s.card){waiting=true;const c=$("card");c.innerHTML=s.card[0]+(s.card[1]?`<small>${s.card[1]}</small>`:"");c.style.display="flex";c.style.opacity=0;c.animate([{opacity:0},{opacity:1}],{duration:500,fill:"forwards"});
+  setTimeout(()=>{c.animate([{opacity:1},{opacity:0}],{duration:500,fill:"forwards"}).onfinish=()=>{c.style.display="none";waiting=false;next()}},1900);return}
+ if(s.nm)return askName();
+ if(s.ch)return choose(s);
+ if(s.end)return ending();
+ say(s)}
+function say(s){
+ $("who").textContent=s.w;$("txt").className=s.w?"":"nar";focusSpeaker(s.w);
+ full=s.t;$("txt").textContent="";$("more").style.visibility="hidden";let i=0;
+ typing=setInterval(()=>{$("txt").textContent=full.slice(0,++i);if(i>=full.length){clearInterval(typing);typing=null;$("more").style.visibility="visible"}},18)}
+function choose(s){
+ waiting=true;const c=$("choices");c.innerHTML=`<h2>${s.ch}</h2>`;c.style.display="flex";
+ s.o.forEach((o,i)=>{const b=document.createElement("button");b.textContent=`${i+1}.  ${o[0]}`;b.onclick=()=>pick(o);b.dataset.i=i;c.appendChild(b)});
+ c.firstChild.nextSibling.focus()}
+function pick(o){$("choices").style.display="none";waiting=false;o[1]();Q.unshift(...o[2]);next()}
+function askName(){
+ waiting=true;const c=$("choices");c.style.display="flex";
+ c.innerHTML=`<h2>Como você se chama?</h2><input id="nin" maxlength="16" placeholder="Seu nome" autocomplete="off"><div class="row"><button id="gm">Ele</button><button id="gf">Ela</button><button id="gn">Neutro</button></div>`;
+ let gen="m";const mark=()=>{["m","f","n"].forEach(x=>$("g"+x).style.borderColor=x===gen?"var(--acc)":"")};mark();
+ ["m","f","n"].forEach(x=>$("g"+x).onclick=()=>{gen=x;mark()});
+ const ok=document.createElement("button");ok.textContent="Confirmar";ok.style.textAlign="center";
+ ok.onclick=()=>{S.name=$("nin").value.trim()||"Calouro";S.g=gen;c.style.display="none";waiting=false;Q.unshift(N(`Seu nome é ${S.name}. Ninguém aqui sabe quem você é. Ainda.`));next()};
+ c.appendChild(ok);$("nin").focus();$("nin").onkeydown=e=>{e.stopPropagation();if(e.key==="Enter")ok.click()}}
+function ending(){
+ waiting=true;const f=Object.keys(S.flags);const sc=$("scr");
+ const verdict=S.sec>=60?"Você começou o semestre com defesas sólidas.":S.sec>=30?"Suas defesas seguram por enquanto, mas há brechas.":"Você está vulnerável. Alguém vai notar.";
+ sc.style.display="flex";
+ sc.innerHTML=`<h1>CYBER<span>SEEK</span></h1><p>Fim do Prólogo. ${verdict}</p>
+ <div id="sum">Segurança: <b>${S.sec}</b> · Reputação: <b>${S.rep}</b> · Confiança Kael: <b>${S.mik}</b> · Confiança Iris: <b>${S.iri}</b><br>Flags: ${f.length?f.join(", "):"nenhuma"}</div>
+ <button class="btn" id="rs">Jogar novamente</button>`;
+ $("rs").onclick=start}
+function start(){
+ S={sec:50,rep:50,mik:0,iri:0,flags:{},name:"",g:"m"};Q=SCRIPT();waiting=false;
+ $("scr").style.display="none";$("choices").style.display="none";$("who").textContent="";$("txt").textContent="";$("more").style.visibility="hidden";
+ show([]);hud();next()}
+function title(){
+ $("scr").innerHTML=`<h1>CYBER<span>SEEK</span></h1><p>Visual novel sobre segurança da informação. Suas escolhas mudam sua Segurança, sua Reputação e quem confia em você. A escolha tecnicamente correta nem sempre é a socialmente melhor.</p><button class="btn" id="go">Começar o Prólogo</button><p style="font-size:.85em">Clique com o botão direito do mouse para interagir.</p>`;
+ $("go").onclick=start}
+$("box").onclick=next;
+document.addEventListener("keydown",e=>{
+ if($("choices").style.display==="flex"){const b=document.querySelector(`#choices button[data-i="${+e.key-1}"]`);if(b)b.click();return}
+ if(e.key===" "||e.key==="Enter"){if($("scr").style.display!=="none")return;e.preventDefault();next()}});
+title();
+</script>
+</body>
+</html>
